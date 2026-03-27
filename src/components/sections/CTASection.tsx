@@ -7,7 +7,7 @@ export default function CTASection() {
     <section className="relative py-28 overflow-hidden">
       <Image
         src="/images/_template/hero/hero-principal.jpg"
-        alt="Jardin de prestige"
+        alt="Jardin aménagé par ED Espaces Verts"
         fill
         className="object-cover"
         sizes="100vw"

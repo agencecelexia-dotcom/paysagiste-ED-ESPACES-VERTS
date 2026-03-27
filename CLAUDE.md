@@ -1,12 +1,12 @@
-# CLAUDE.md — Gouvernance Jardins de Prestige
+# CLAUDE.md — Gouvernance ED Espaces Verts
 
 > Source unique de vérité. À lire avant chaque session de travail.
 
 ## 📌 Projet
-- **Nom** : Jardins de Prestige
-- **Type** : Site vitrine statique — paysagiste haut de gamme à Lyon
+- **Nom** : ED Espaces Verts
+- **Type** : Site vitrine statique — paysagiste à Grandpuits-Bailly-Carrois (77)
 - **Statut** : Refonte Master Blueprint 2026
-- **URL prod** : https://www.jardins-de-prestige.fr
+- **URL prod** : https://www.ed-espacesverts.fr
 
 ## 🛠️ Stack
 | Outil | Version | Notes |

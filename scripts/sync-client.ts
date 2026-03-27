@@ -1,5 +1,5 @@
 /**
- * sync-client.ts — Jardins de Prestige Template System
+ * sync-client.ts — Paysagiste Template System
  * Lit CLIENT.md et génère src/config/client.config.ts + met à jour globals.css
  * Usage: npm run sync-client
  */
@@ -82,7 +82,7 @@ function updateGlobalsCss(css: string, config: Record<string, string>): string {
 }
 
 function main() {
-  console.log("🌿 sync-client — Jardins de Prestige Template System\n");
+  console.log("🌿 sync-client — Paysagiste Template System\n");
 
   // 1. Lire CLIENT.md
   if (!fs.existsSync(CLIENT_MD)) {
