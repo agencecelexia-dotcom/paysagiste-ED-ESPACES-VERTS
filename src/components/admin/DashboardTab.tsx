@@ -134,7 +134,7 @@ export default function DashboardTab() {
       </div>
 
       {/* Secondary stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm flex items-center gap-3">
           <Clock size={18} className="text-neutral-400 flex-shrink-0" />
           <div>
