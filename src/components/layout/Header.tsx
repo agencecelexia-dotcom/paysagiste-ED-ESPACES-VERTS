@@ -46,7 +46,7 @@ export default function Header() {
       )}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="flex h-16 md:h-20 items-center justify-between gap-8">
+        <div className="flex h-24 md:h-28 items-center justify-between gap-8">
 
           {/* Logo */}
           <Logo light={transparent} className="shrink-0" />
