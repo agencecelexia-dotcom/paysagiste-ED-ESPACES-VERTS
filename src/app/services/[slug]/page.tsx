@@ -2,11 +2,13 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { services } from "@/data/services";
-import { projects } from "@/data/projects";
 import FadeUp from "@/components/animations/FadeUp";
+import { getServices, getServiceBySlug } from "@/lib/supabase-queries";
+
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
+  const services = await getServices();
   return services.map((s) => ({ slug: s.slug }));
 }
 
@@ -16,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
+  const service = await getServiceBySlug(slug);
   if (!service) return { title: "Service non trouvé" };
   return {
     title: service.title,
@@ -31,10 +33,11 @@ export default async function ServicePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
+  const service = await getServiceBySlug(slug);
   if (!service) notFound();
 
-  const related = services.filter((s) => s.id !== service.id).slice(0, 3);
+  const allServices = await getServices();
+  const related = allServices.filter((s) => s.id !== service.id).slice(0, 3);
 
   return (
     <main>
@@ -78,18 +81,11 @@ export default async function ServicePage({
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <FadeUp>
-              <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-6">
-                Notre approche
-              </h2>
-              <p className="text-neutral-700 leading-relaxed">
-                {service.fullDescription}
-              </p>
+              <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-6">Notre approche</h2>
+              <p className="text-neutral-700 leading-relaxed">{service.fullDescription}</p>
             </FadeUp>
-
             <FadeUp delay={0.1}>
-              <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-6">
-                Ce qui est inclus
-              </h3>
+              <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-6">Ce qui est inclus</h3>
               <ul className="space-y-4">
                 {service.features.map((f) => (
                   <li key={f} className="flex items-start gap-3">
@@ -111,20 +107,13 @@ export default async function ServicePage({
       <section className="py-16 bg-neutral-50">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <FadeUp className="mb-10">
-            <h2 className="font-heading text-3xl font-bold text-neutral-900">
-              Nos autres services
-            </h2>
+            <h2 className="font-heading text-3xl font-bold text-neutral-900">Nos autres services</h2>
           </FadeUp>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {related.map((svc, i) => (
               <FadeUp key={svc.id} delay={i * 0.08}>
-                <Link
-                  href={`/services/${svc.slug}`}
-                  className="group block p-6 rounded-2xl border border-neutral-200 bg-white hover:border-primary-300 hover:shadow-md transition-all"
-                >
-                  <h3 className="font-semibold text-neutral-900 group-hover:text-primary-900 mb-2">
-                    {svc.title}
-                  </h3>
+                <Link href={`/services/${svc.slug}`} className="group block p-6 rounded-2xl border border-neutral-200 bg-white hover:border-primary-300 hover:shadow-md transition-all">
+                  <h3 className="font-semibold text-neutral-900 group-hover:text-primary-900 mb-2">{svc.title}</h3>
                   <p className="text-sm text-neutral-600">{svc.shortDescription}</p>
                   <p className="mt-3 text-xs font-semibold text-accent-600">Découvrir →</p>
                 </Link>
@@ -138,16 +127,9 @@ export default async function ServicePage({
       <section className="py-20 bg-primary-900">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <FadeUp>
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
-              Intéressé par ce service ?
-            </h2>
-            <p className="text-neutral-200 mb-8">
-              Contactez-nous pour un devis gratuit et sans engagement.
-            </p>
-            <Link
-              href="/contact"
-              className="inline-flex px-8 py-4 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-colors"
-            >
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">Intéressé par ce service ?</h2>
+            <p className="text-neutral-200 mb-8">Contactez-nous pour un devis gratuit et sans engagement.</p>
+            <Link href="/contact" className="inline-flex px-8 py-4 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-colors">
               Demander un Devis
             </Link>
           </FadeUp>

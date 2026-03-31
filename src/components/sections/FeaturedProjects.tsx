@@ -1,10 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import FadeUp from "@/components/animations/FadeUp";
-import { projects } from "@/data/projects";
+import type { Project } from "@/types";
 import { PROJECT_CATEGORY_LABELS } from "@/types";
 
-export default function FeaturedProjects() {
+interface Props {
+  projects: Project[];
+}
+
+export default function FeaturedProjects({ projects }: Props) {
   const featured = projects.filter((p) => p.featured).slice(0, 3);
   if (featured.length === 0) return null;
 
@@ -46,7 +50,6 @@ export default function FeaturedProjects() {
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              {/* Gradient permanent — texte toujours lisible */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all duration-300" />
               <div className="absolute bottom-0 left-0 p-6">
                 <p className="text-xs font-semibold text-accent-400 uppercase tracking-wider mb-1">
@@ -70,7 +73,6 @@ export default function FeaturedProjects() {
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 25vw"
                   />
-                  {/* Gradient permanent */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent group-hover:from-black/90 transition-all duration-300" />
                   <div className="absolute bottom-0 left-0 p-5">
                     <p className="text-xs font-semibold text-accent-400 uppercase tracking-wider mb-1">

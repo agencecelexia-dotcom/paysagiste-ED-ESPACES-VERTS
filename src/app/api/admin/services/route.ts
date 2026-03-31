@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { readData, writeData } from "@/lib/storage";
-import { services as defaultServices } from "@/data/services";
-
-const FILE = "services.json";
+import { createAdminClient } from "@/lib/supabase";
+import { serviceFromRow, serviceToRow } from "@/lib/supabase-helpers";
 
 async function checkAuth() {
   const cookieStore = await cookies();
@@ -12,26 +10,31 @@ async function checkAuth() {
 
 export async function GET() {
   if (!(await checkAuth())) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
-  const data = readData(FILE, defaultServices);
-  return NextResponse.json({ success: true, data });
+
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("services")
+    .select("*")
+    .order("order", { ascending: true });
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ success: true, data: (data ?? []).map(serviceFromRow) });
 }
 
 export async function POST(request: NextRequest) {
   if (!(await checkAuth())) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+
   const body = await request.json();
-  const items = readData(FILE, defaultServices) as typeof defaultServices;
+  const supabase = createAdminClient();
 
   if (body.action === "delete") {
-    writeData(FILE, items.filter((i: { id: string }) => i.id !== body.id));
+    const { error } = await supabase.from("services").delete().eq("id", body.id);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ success: true });
   }
 
-  const idx = items.findIndex((i: { id: string }) => i.id === body.data?.id);
-  if (idx >= 0) {
-    (items as unknown[])[idx] = body.data;
-  } else {
-    (items as unknown[]).push(body.data);
-  }
-  writeData(FILE, items);
+  const row = serviceToRow(body.data);
+  const { error } = await supabase.from("services").upsert(row);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ success: true });
 }

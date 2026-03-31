@@ -4,15 +4,19 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 import FadeIn from "@/components/animations/FadeIn";
-import { services } from "@/data/services";
 import { clientConfig } from "@/config/client.config";
+import { getServices } from "@/lib/supabase-queries";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Nos Services",
   description: `Découvrez nos services de ${clientConfig.METIER} haut de gamme : ${clientConfig.SERVICE_1_TITRE}, ${clientConfig.SERVICE_2_TITRE}, ${clientConfig.SERVICE_3_TITRE} à ${clientConfig.VILLE}.`,
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
+
   return (
     <>
       {/* Hero Banner */}
@@ -49,55 +53,27 @@ export default function ServicesPage() {
                     index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
                   }`}
                 >
-                  {/* Image */}
                   <div className="lg:w-1/2">
                     <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                      <Image
-                        src={service.image}
-                        alt={service.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                      />
+                      <Image src={service.image} alt={service.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
                     </div>
                   </div>
-
-                  {/* Content */}
                   <div className="lg:w-1/2">
-                    <h2 className="text-3xl md:text-4xl font-bold text-neutral-900">
-                      {service.title}
-                    </h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-neutral-900">{service.title}</h2>
                     <div className="mt-4 h-1 w-12 rounded-full bg-accent-500" />
-                    <p className="mt-6 text-neutral-600 leading-relaxed">
-                      {service.fullDescription}
-                    </p>
+                    <p className="mt-6 text-neutral-600 leading-relaxed">{service.fullDescription}</p>
                     <ul className="mt-6 space-y-3">
                       {service.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-start gap-3 text-neutral-700"
-                        >
-                          <svg
-                            className="mt-1 h-5 w-5 shrink-0 text-accent-500"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
+                        <li key={feature} className="flex items-start gap-3 text-neutral-700">
+                          <svg className="mt-1 h-5 w-5 shrink-0 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                           </svg>
                           {feature}
                         </li>
                       ))}
                     </ul>
                     <div className="mt-8">
-                      <Button href="/contact" variant="primary">
-                        Demander un devis
-                      </Button>
+                      <Button href="/contact" variant="primary">Demander un devis</Button>
                     </div>
                   </div>
                 </div>
@@ -115,9 +91,7 @@ export default function ServicesPage() {
               title="Un Projet en Tête ?"
               subtitle="Contactez-nous pour en discuter. Notre équipe vous conseille et vous accompagne à chaque étape."
             />
-            <Button href="/contact" variant="primary" size="lg">
-              Contactez-nous
-            </Button>
+            <Button href="/contact" variant="primary" size="lg">Contactez-nous</Button>
           </FadeIn>
         </Container>
       </section>

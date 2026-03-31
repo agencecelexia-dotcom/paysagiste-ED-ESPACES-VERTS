@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import Link from "next/link";
 import FadeUp from "@/components/animations/FadeUp";
-import { services } from "@/data/services";
+import type { Service } from "@/types";
 
 const icons: Record<string, ReactElement> = {
   leaf: (
@@ -36,7 +36,11 @@ const icons: Record<string, ReactElement> = {
   ),
 };
 
-export default function ServicesOverview() {
+interface Props {
+  services: Service[];
+}
+
+export default function ServicesOverview({ services }: Props) {
   return (
     <section className="py-24 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

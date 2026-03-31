@@ -3,15 +3,19 @@ import Image from "next/image";
 import Container from "@/components/ui/Container";
 import FadeIn from "@/components/animations/FadeIn";
 import ProjectGallery from "@/components/features/ProjectGallery";
-import { projects } from "@/data/projects";
 import { clientConfig } from "@/config/client.config";
+import { getProjects } from "@/lib/supabase-queries";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Nos Réalisations",
   description: `Découvrez nos réalisations de jardins d'exception, terrasses et aménagements paysagers haut de gamme réalisés à ${clientConfig.VILLE} et ses environs.`,
 };
 
-export default function RealisationsPage() {
+export default async function RealisationsPage() {
+  const projects = await getProjects();
+
   return (
     <>
       {/* Hero Banner */}

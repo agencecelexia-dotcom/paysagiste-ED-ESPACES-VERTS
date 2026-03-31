@@ -1,7 +1,11 @@
 import FadeUp from "@/components/animations/FadeUp";
-import { testimonials } from "@/data/testimonials";
+import type { Testimonial } from "@/types";
 
-export default function TestimonialsSection() {
+interface Props {
+  testimonials: Testimonial[];
+}
+
+export default function TestimonialsSection({ testimonials }: Props) {
   const displayed = testimonials.slice(0, 3);
   return (
     <section className="py-24 bg-white">
@@ -29,7 +33,7 @@ export default function TestimonialsSection() {
                 </div>
                 {/* Quote */}
                 <blockquote className="flex-1 text-sm text-neutral-700 leading-relaxed italic mb-6">
-                  "{t.quote}"
+                  &ldquo;{t.quote}&rdquo;
                 </blockquote>
                 {/* Author */}
                 <div className="flex items-center gap-3">

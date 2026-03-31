@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { contactFormSchema } from "@/lib/validation";
 import { clientConfig } from "@/config/client.config";
+import { createClient } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -14,6 +15,22 @@ export async function POST(request: Request) {
       );
     }
 
+    // Save to Supabase
+    const supabase = createClient();
+    const { error: dbError } = await supabase.from("contact_submissions").insert({
+      first_name: result.data.firstName,
+      last_name: result.data.lastName,
+      email: result.data.email,
+      phone: result.data.phone,
+      service_type: result.data.serviceType,
+      project_description: result.data.projectDescription,
+      budget: result.data.budget,
+    });
+
+    if (dbError) {
+      console.error("Supabase insert error:", dbError);
+    }
+
     // Forward to n8n webhook if configured
     if (clientConfig.N8N_WEBHOOK) {
       await fetch(clientConfig.N8N_WEBHOOK, {
@@ -24,9 +41,6 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify(result.data),
       });
-    } else {
-      // Fallback: log locally when webhook not configured
-      console.log("Nouvelle demande de contact:", result.data);
     }
 
     return NextResponse.json(

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Eye,
   Users,
@@ -31,102 +31,6 @@ interface Submission {
   status: SubmissionStatus;
 }
 
-const INITIAL_SUBMISSIONS: Submission[] = [
-  {
-    id: "1",
-    name: "Sophie Marchand",
-    email: "sophie.marchand@email.fr",
-    phone: "06 12 34 56 78",
-    service: "Création de jardins",
-    subject: "Création jardin contemporain 500m²",
-    message: "Bonjour, je souhaite créer un jardin contemporain de 500m² avec terrasse et bassin miroir. Pouvez-vous me contacter pour un devis ?",
-    location: "Quartier Centre",
-    date: "21/02/2026",
-    time: "10:23",
-    status: "Nouveau",
-  },
-  {
-    id: "2",
-    name: "Pierre & Nathalie Bonnet",
-    email: "bonnet.pierre@gmail.com",
-    phone: "06 98 76 54 32",
-    service: "Aménagement de terrasses",
-    subject: "Aménagement terrasse bois + pergola",
-    message: "Nous souhaiterions aménager notre terrasse de 80m² avec du bois exotique et une pergola bioclimatique. Budget prévu : 25 000€.",
-    location: "Commune Ouest",
-    date: "20/02/2026",
-    time: "14:45",
-    status: "Contacté",
-  },
-  {
-    id: "3",
-    name: "Michel Faure",
-    email: "m.faure@orange.fr",
-    phone: "07 23 45 67 89",
-    service: "Entretien paysager",
-    subject: "Contrat entretien annuel - jardin 300m²",
-    message: "Je recherche un contrat d'entretien annuel pour mon jardin de 300m². Tonte bimensuelle, taille haies et arbustes 2x/an, désherbage.",
-    location: "Commune Est",
-    date: "19/02/2026",
-    time: "09:15",
-    status: "En cours",
-  },
-  {
-    id: "4",
-    name: "Isabelle Petit",
-    email: "isabelle.petit@sfr.fr",
-    phone: "06 34 56 78 90",
-    service: "Élagage & Taille",
-    subject: "Élagage 3 grands chênes + taille haies",
-    message: "Trois chênes centenaires dans mon parc nécessitent un élagage important. Également des haies de 2m à tailler sur 40 mètres linéaires.",
-    location: "Commune Nord",
-    date: "18/02/2026",
-    time: "16:30",
-    status: "Converti",
-  },
-  {
-    id: "5",
-    name: "Jean-Marc Reynaud",
-    email: "jm.reynaud@free.fr",
-    phone: "06 45 67 89 01",
-    service: "Aménagement complet",
-    subject: "Projet complet: jardin+terrasse+arrosage auto",
-    message: "Projet d'envergure : création jardin paysager 800m², terrasse en pierre naturelle 100m², système arrosage automatique intégré. Merci de me rappeler.",
-    location: "Commune Sud",
-    date: "17/02/2026",
-    time: "11:00",
-    status: "Nouveau",
-  },
-];
-
-const FAKE_STATS = {
-  totalViews: 3241,
-  todayViews: 47,
-  weekViews: 213,
-  monthViews: 891,
-  ctaClicks: 178,
-  formSubmits: 54,
-  uniqueVisitors: 2156,
-  avgSessionDuration: "2m 51s",
-  bounceRate: "35.7%",
-  conversionRate: "1.7%",
-  topPages: [
-    { page: "/", label: "Accueil", views: 1284 },
-    { page: "/realisations", label: "Réalisations", views: 643 },
-    { page: "/services", label: "Services", views: 521 },
-    { page: "/contact", label: "Contact", views: 389 },
-    { page: "/a-propos", label: "À propos", views: 234 },
-    { page: "/blog", label: "Blog", views: 170 },
-  ],
-  topReferrers: [
-    { source: "Google organic", visits: 1456, pct: "67%" },
-    { source: "Direct", visits: 412, pct: "19%" },
-    { source: "Google Maps", visits: 178, pct: "8%" },
-    { source: "Instagram", visits: 75, pct: "3%" },
-    { source: "Pages Jaunes", visits: 35, pct: "2%" },
-  ],
-};
-
 const STATUS_COLORS: Record<SubmissionStatus, string> = {
   Nouveau: "bg-blue-100 text-blue-700",
   Contacté: "bg-yellow-100 text-yellow-700",
@@ -135,31 +39,50 @@ const STATUS_COLORS: Record<SubmissionStatus, string> = {
 };
 
 export default function DashboardTab() {
-  const [submissions, setSubmissions] = useState<Submission[]>(INITIAL_SUBMISSIONS);
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null);
-  const [stats, setStats] = useState(FAKE_STATS);
+  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  function handleStatusChange(id: string, status: SubmissionStatus) {
+  const fetchSubmissions = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/submissions");
+      const json = await res.json();
+      if (json.success) setSubmissions(json.data);
+    } catch (err) {
+      console.error("Erreur chargement soumissions:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSubmissions();
+  }, [fetchSubmissions]);
+
+  async function handleStatusChange(id: string, status: SubmissionStatus) {
     setSubmissions((prev) =>
       prev.map((s) => (s.id === id ? { ...s, status } : s))
     );
     if (selectedSubmission?.id === id) {
       setSelectedSubmission((prev) => (prev ? { ...prev, status } : null));
     }
+    await fetch("/api/admin/submissions", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
   }
 
   function handleRefresh() {
     setRefreshing(true);
-    setTimeout(() => {
-      setStats((prev) => ({
-        ...prev,
-        todayViews: prev.todayViews + Math.floor(Math.random() * 5) + 1,
-        totalViews: prev.totalViews + Math.floor(Math.random() * 5) + 1,
-      }));
-      setRefreshing(false);
-    }, 800);
+    fetchSubmissions().then(() => setRefreshing(false));
   }
+
+  const totalSubmissions = submissions.length;
+  const newCount = submissions.filter((s) => s.status === "Nouveau").length;
+  const convertedCount = submissions.filter((s) => s.status === "Converti").length;
+  const conversionRate = totalSubmissions > 0 ? Math.round((convertedCount / totalSubmissions) * 100) : 0;
 
   return (
     <div className="space-y-6">
@@ -178,34 +101,34 @@ export default function DashboardTab() {
         </button>
       </div>
 
-      {/* Stats Grid 2x2 */}
+      {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
-          icon={Eye}
-          label="Vues totales"
-          value={stats.totalViews.toLocaleString("fr-FR")}
-          sub={`+${stats.todayViews} aujourd'hui`}
+          icon={FileText}
+          label="Demandes totales"
+          value={totalSubmissions.toString()}
+          sub={`${newCount} nouvelles`}
           color="bg-blue-50 text-blue-700"
         />
         <StatCard
-          icon={Users}
-          label="Visiteurs uniques"
-          value={stats.uniqueVisitors.toLocaleString("fr-FR")}
-          sub={`Ce mois: ${stats.monthViews}`}
+          icon={Eye}
+          label="Nouveaux"
+          value={newCount.toString()}
+          sub="En attente de traitement"
           color="bg-primary-50 text-primary-700"
         />
         <StatCard
           icon={MousePointerClick}
-          label="Clics CTA"
-          value={stats.ctaClicks.toString()}
-          sub={`Taux: ${stats.conversionRate}`}
+          label="Convertis"
+          value={convertedCount.toString()}
+          sub={`Taux: ${conversionRate}%`}
           color="bg-accent-50 text-accent-700"
         />
         <StatCard
-          icon={FileText}
-          label="Formulaires"
-          value={stats.formSubmits.toString()}
-          sub={`Rebond: ${stats.bounceRate}`}
+          icon={Users}
+          label="En cours"
+          value={submissions.filter((s) => s.status === "En cours" || s.status === "Contacté").length.toString()}
+          sub="En discussion"
           color="bg-green-50 text-green-700"
         />
       </div>
@@ -215,22 +138,24 @@ export default function DashboardTab() {
         <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm flex items-center gap-3">
           <Clock size={18} className="text-neutral-400 flex-shrink-0" />
           <div>
-            <p className="text-xs text-neutral-500">Durée moy. session</p>
-            <p className="text-lg font-bold text-neutral-900">{stats.avgSessionDuration}</p>
+            <p className="text-xs text-neutral-500">Dernière demande</p>
+            <p className="text-lg font-bold text-neutral-900">{submissions[0]?.date ?? "—"}</p>
           </div>
         </div>
         <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm flex items-center gap-3">
           <TrendingUp size={18} className="text-neutral-400 flex-shrink-0" />
           <div>
-            <p className="text-xs text-neutral-500">Vues cette semaine</p>
-            <p className="text-lg font-bold text-neutral-900">{stats.weekViews}</p>
+            <p className="text-xs text-neutral-500">Service le + demandé</p>
+            <p className="text-lg font-bold text-neutral-900 truncate">
+              {getMostRequestedService(submissions)}
+            </p>
           </div>
         </div>
         <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm flex items-center gap-3">
           <Percent size={18} className="text-neutral-400 flex-shrink-0" />
           <div>
-            <p className="text-xs text-neutral-500">Taux de rebond</p>
-            <p className="text-lg font-bold text-neutral-900">{stats.bounceRate}</p>
+            <p className="text-xs text-neutral-500">Taux de conversion</p>
+            <p className="text-lg font-bold text-neutral-900">{conversionRate}%</p>
           </div>
         </div>
       </div>
@@ -242,92 +167,53 @@ export default function DashboardTab() {
             Demandes récentes
           </h2>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-neutral-50 text-left">
-                <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Nom</th>
-                <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Localisation</th>
-                <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Sujet</th>
-                <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Date</th>
-                <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Statut</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-neutral-100">
-              {submissions.map((s) => (
-                <tr
-                  key={s.id}
-                  className="hover:bg-neutral-50 cursor-pointer transition-colors"
-                  onClick={() => setSelectedSubmission(s)}
-                >
-                  <td className="px-4 py-3 font-medium text-neutral-900">{s.name}</td>
-                  <td className="px-4 py-3 text-neutral-500">{s.location}</td>
-                  <td className="px-4 py-3 text-neutral-700 max-w-xs truncate">{s.subject}</td>
-                  <td className="px-4 py-3 text-neutral-500 whitespace-nowrap">{s.date}</td>
-                  <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
-                    <select
-                      value={s.status}
-                      onChange={(e) => handleStatusChange(s.id, e.target.value as SubmissionStatus)}
-                      className={`rounded-full px-2.5 py-1 text-xs font-medium border-0 cursor-pointer ${STATUS_COLORS[s.status]}`}
-                    >
-                      <option value="Nouveau">Nouveau</option>
-                      <option value="Contacté">Contacté</option>
-                      <option value="En cours">En cours</option>
-                      <option value="Converti">Converti</option>
-                    </select>
-                  </td>
+        {loading ? (
+          <div className="px-6 py-12 text-center text-neutral-400">Chargement...</div>
+        ) : submissions.length === 0 ? (
+          <div className="px-6 py-12 text-center text-neutral-400">
+            Aucune demande pour le moment. Les soumissions du formulaire contact apparaîtront ici.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-neutral-50 text-left">
+                  <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Nom</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Service</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Sujet</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Date</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide">Statut</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Bottom grid: Top Pages + Referrers */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Top Pages */}
-        <div className="rounded-xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-neutral-100">
-            <h2 className="font-heading text-base font-semibold text-neutral-900">Pages les plus visitées</h2>
+              </thead>
+              <tbody className="divide-y divide-neutral-100">
+                {submissions.map((s) => (
+                  <tr
+                    key={s.id}
+                    className="hover:bg-neutral-50 cursor-pointer transition-colors"
+                    onClick={() => setSelectedSubmission(s)}
+                  >
+                    <td className="px-4 py-3 font-medium text-neutral-900">{s.name}</td>
+                    <td className="px-4 py-3 text-neutral-500">{s.service}</td>
+                    <td className="px-4 py-3 text-neutral-700 max-w-xs truncate">{s.subject}</td>
+                    <td className="px-4 py-3 text-neutral-500 whitespace-nowrap">{s.date}</td>
+                    <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                      <select
+                        value={s.status}
+                        onChange={(e) => handleStatusChange(s.id, e.target.value as SubmissionStatus)}
+                        className={`rounded-full px-2.5 py-1 text-xs font-medium border-0 cursor-pointer ${STATUS_COLORS[s.status]}`}
+                      >
+                        <option value="Nouveau">Nouveau</option>
+                        <option value="Contacté">Contacté</option>
+                        <option value="En cours">En cours</option>
+                        <option value="Converti">Converti</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div className="divide-y divide-neutral-100">
-            {stats.topPages.map((p, i) => (
-              <div key={p.page} className="flex items-center justify-between px-6 py-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono text-neutral-400 w-4">{i + 1}</span>
-                  <div>
-                    <p className="text-sm font-medium text-neutral-900">{p.label}</p>
-                    <p className="text-xs text-neutral-400 font-mono">{p.page}</p>
-                  </div>
-                </div>
-                <span className="text-sm font-semibold text-neutral-700">{p.views.toLocaleString("fr-FR")}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Top Referrers */}
-        <div className="rounded-xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-neutral-100">
-            <h2 className="font-heading text-base font-semibold text-neutral-900">Sources de trafic</h2>
-          </div>
-          <div className="divide-y divide-neutral-100">
-            {stats.topReferrers.map((r) => (
-              <div key={r.source} className="flex items-center justify-between px-6 py-3">
-                <span className="text-sm text-neutral-700">{r.source}</span>
-                <div className="flex items-center gap-3">
-                  <div className="h-2 w-24 rounded-full bg-neutral-100 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-accent-500"
-                      style={{ width: r.pct }}
-                    />
-                  </div>
-                  <span className="text-xs font-medium text-neutral-500 w-8 text-right">{r.pct}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Detail Modal */}
@@ -337,7 +223,7 @@ export default function DashboardTab() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-100">
               <div>
                 <h3 className="font-heading text-xl font-bold text-neutral-900">{selectedSubmission.name}</h3>
-                <p className="text-sm text-neutral-500">{selectedSubmission.location} — {selectedSubmission.date} à {selectedSubmission.time}</p>
+                <p className="text-sm text-neutral-500">{selectedSubmission.date} à {selectedSubmission.time}</p>
               </div>
               <button
                 onClick={() => setSelectedSubmission(null)}
@@ -353,11 +239,6 @@ export default function DashboardTab() {
                   {selectedSubmission.status}
                 </span>
                 <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600">{selectedSubmission.service}</span>
-              </div>
-
-              <div>
-                <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wide mb-1">Sujet</p>
-                <p className="text-sm font-medium text-neutral-900">{selectedSubmission.subject}</p>
               </div>
 
               <div>
@@ -442,4 +323,14 @@ function StatCard({ icon: Icon, label, value, sub, color }: StatCardProps) {
       </div>
     </div>
   );
+}
+
+function getMostRequestedService(submissions: Submission[]): string {
+  if (submissions.length === 0) return "—";
+  const counts: Record<string, number> = {};
+  for (const s of submissions) {
+    if (s.service) counts[s.service] = (counts[s.service] || 0) + 1;
+  }
+  const sorted = Object.entries(counts).sort(([, a], [, b]) => b - a);
+  return sorted[0]?.[0] || "—";
 }

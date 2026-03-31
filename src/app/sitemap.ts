@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
-import { projects } from "@/data/projects";
 import { blogPosts } from "@/data/blog-posts";
 import { clientConfig } from "@/config/client.config";
+import { getProjects, getServices } from "@/lib/supabase-queries";
 
 const BASE_URL = `https://${clientConfig.DOMAINE}`;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [projects, services] = await Promise.all([getProjects(), getServices()]);
+
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
     { url: `${BASE_URL}/services`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
@@ -16,6 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/mentions-legales`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
     { url: `${BASE_URL}/politique-de-confidentialite`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
   ];
+
+  const servicePages: MetadataRoute.Sitemap = services.map((svc) => ({
+    url: `${BASE_URL}/services/${svc.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
   const projectPages: MetadataRoute.Sitemap = projects.map((project) => ({
     url: `${BASE_URL}/realisations/${project.slug}`,
@@ -31,5 +40,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...projectPages, ...blogPages];
+  return [...staticPages, ...servicePages, ...projectPages, ...blogPages];
 }

@@ -7,20 +7,29 @@ import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import CTASection from "@/components/sections/CTASection";
 import { clientConfig } from "@/config/client.config";
+import { getServices, getFeaturedProjects, getTestimonials } from "@/lib/supabase-queries";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: clientConfig.META_TITLE,
   description: clientConfig.META_DESCRIPTION,
 };
 
-export default function Home() {
+export default async function Home() {
+  const [services, projects, testimonials] = await Promise.all([
+    getServices(),
+    getFeaturedProjects(),
+    getTestimonials(),
+  ]);
+
   return (
     <>
       <HeroSection />
-      <ServicesOverview />
-      <FeaturedProjects />
+      <ServicesOverview services={services} />
+      <FeaturedProjects projects={projects} />
       <StatsSection />
-      <TestimonialsSection />
+      <TestimonialsSection testimonials={testimonials} />
       <WhyChooseUs />
       <CTASection />
     </>
