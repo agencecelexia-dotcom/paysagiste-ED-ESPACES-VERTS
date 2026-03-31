@@ -131,8 +131,8 @@ export default function AProposPage() {
       {/* Stats */}
       <StatsSection />
 
-      {/* Team */}
-      <section className="py-[clamp(4rem,8vw,8rem)]">
+      {/* Team — masqué temporairement (photos stock à remplacer) */}
+      {/* <section className="py-[clamp(4rem,8vw,8rem)]">
         <Container>
           <FadeIn>
             <SectionHeading
@@ -167,7 +167,7 @@ export default function AProposPage() {
             ))}
           </div>
         </Container>
-      </section>
+      </section> */}
 
       {/* Certifications */}
       <section className="py-16 bg-neutral-100">
