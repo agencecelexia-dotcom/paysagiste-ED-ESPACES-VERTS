@@ -49,9 +49,7 @@ export default function Header() {
         <div className="flex h-16 md:h-20 items-center justify-between gap-8">
 
           {/* Logo */}
-          <Link href="/" className="shrink-0">
-            <Logo light={transparent} />
-          </Link>
+          <Logo light={transparent} className="shrink-0" />
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
