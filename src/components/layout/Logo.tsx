@@ -13,10 +13,10 @@ export default function Logo({ light = false, className }: LogoProps) {
       <Image
         src="/images/logo.png"
         alt="ED Espaces Verts"
-        width={480}
-        height={180}
+        width={202}
+        height={90}
         className={cn(
-          "h-28 md:h-36 w-auto transition-transform duration-300 group-hover:scale-105",
+          "h-12 md:h-14 w-auto transition-transform duration-300 group-hover:scale-105",
           light && "brightness-0 invert"
         )}
         priority
