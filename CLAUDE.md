@@ -4,7 +4,7 @@
 
 ## 📌 Projet
 - **Nom** : ED Espaces Verts
-- **Type** : Site vitrine statique — paysagiste à Grandpuits-Bailly-Carrois (77)
+- **Type** : Site vitrine statique — paysagiste en Seine-et-Marne (77)
 - **Statut** : Refonte Master Blueprint 2026
 - **URL prod** : https://www.ed-espacesverts.fr
 

@@ -5,30 +5,29 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 import FadeIn from "@/components/animations/FadeIn";
 import StatsSection from "@/components/sections/StatsSection";
-import { team } from "@/data/team";
 import { clientConfig } from "@/config/client.config";
 
 export const metadata: Metadata = {
   title: "À Propos",
-  description: `Découvrez l'histoire de ${clientConfig.NOM_ENTREPRISE}, notre équipe de paysagistes passionnés et nos valeurs. Plus de ${clientConfig.ANNEES_EXPERIENCE} ans d'expertise au service de vos jardins à ${clientConfig.VILLE}.`,
+  description: `${clientConfig.NOM_ENTREPRISE}, paysagiste en Seine-et-Marne. ${clientConfig.ANNEES_EXPERIENCE} ans d'expérience, 250+ projets réalisés.`,
 };
 
 const values = [
   {
-    title: "Excellence",
-    description: "Nous visons la perfection dans chaque détail, du choix des matériaux à la finition.",
+    title: "Sérieux",
+    description: "On fait ce qu'on dit, dans les délais et le budget annoncés.",
   },
   {
-    title: "Créativité",
-    description: "Chaque jardin est une œuvre unique, conçue sur mesure selon vos envies.",
+    title: "Sur mesure",
+    description: "Chaque jardin est différent. On s'adapte à votre terrain et vos envies.",
   },
   {
-    title: "Durabilité",
-    description: "Nous privilégions les pratiques écologiques et les matériaux responsables.",
+    title: "Propreté",
+    description: "On laisse le chantier propre. C'est la base, mais on y tient.",
   },
   {
     title: "Proximité",
-    description: "Un accompagnement personnalisé et transparent, de la conception à l'entretien.",
+    description: "On est du coin, on se déplace vite, et on reste joignable.",
   },
 ];
 
@@ -52,7 +51,7 @@ export default function AProposPage() {
               À Propos
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-neutral-200">
-              L&apos;histoire d&apos;une passion pour l&apos;art des jardins
+              Qui on est, comment on travaille
             </p>
           </FadeIn>
         </Container>
@@ -82,17 +81,15 @@ export default function AProposPage() {
                 {clientConfig.DESCRIPTION_APROPOS}
               </p>
               <p className="mt-4 text-neutral-600 leading-relaxed">
-                Depuis plus de {clientConfig.ANNEES_EXPERIENCE} ans, notre équipe d&apos;experts conçoit et réalise
-                des jardins d&apos;exception dans la région de {clientConfig.VILLE}. Notre approche
-                allie créativité, expertise technique et respect de l&apos;environnement
-                pour donner vie à des espaces uniques qui reflètent la personnalité de
-                chaque client.
+                Depuis {clientConfig.ANNEES_EXPERIENCE} ans, on intervient dans toute la Seine-et-Marne
+                pour créer, aménager et entretenir des espaces verts. Notre truc, c&apos;est
+                le travail bien fait : on arrive, on bosse, on laisse le chantier propre,
+                et le client est content.
               </p>
               <p className="mt-4 text-neutral-600 leading-relaxed">
-                Labellisés QualiPaysage et engagés dans une démarche éco-responsable,
-                nous sélectionnons les meilleurs matériaux et les essences les plus
-                adaptées pour garantir des réalisations pérennes et respectueuses de la
-                biodiversité.
+                On est une petite équipe, ce qui veut dire que c&apos;est Ethan qui vient
+                sur le terrain, qui fait le devis et qui suit le chantier. Pas
+                d&apos;intermédiaire, pas de mauvaise surprise.
               </p>
             </FadeIn>
           </div>
@@ -104,8 +101,8 @@ export default function AProposPage() {
         <Container>
           <FadeIn>
             <SectionHeading
-              title="Nos Valeurs"
-              subtitle="Les principes qui guident notre travail au quotidien"
+              title="Comment on Travaille"
+              subtitle="Des principes simples qu'on applique sur chaque chantier"
             />
           </FadeIn>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -131,80 +128,15 @@ export default function AProposPage() {
       {/* Stats */}
       <StatsSection />
 
-      {/* Team — masqué temporairement (photos stock à remplacer) */}
-      {/* <section className="py-[clamp(4rem,8vw,8rem)]">
-        <Container>
-          <FadeIn>
-            <SectionHeading
-              title="Notre Équipe"
-              subtitle="Des passionnés au service de vos projets"
-            />
-          </FadeIn>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((member, index) => (
-              <FadeIn key={member.id} delay={index * 0.1}>
-                <div className="group text-center">
-                  <div className="relative mx-auto h-32 w-32 sm:h-40 sm:w-40 lg:h-48 lg:w-48 overflow-hidden rounded-full mb-4">
-                    <Image
-                      src={member.photo}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 640px) 128px, (max-width: 1024px) 160px, 192px"
-                    />
-                  </div>
-                  <h3 className="text-lg font-bold text-neutral-900">
-                    {member.name}
-                  </h3>
-                  <p className="text-sm font-medium text-accent-600">
-                    {member.role}
-                  </p>
-                  <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
-                    {member.bio}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </Container>
-      </section> */}
-
-      {/* Certifications */}
-      <section className="py-16 bg-neutral-100">
-        <Container className="text-center">
-          <FadeIn>
-            <h2 className="text-2xl font-bold text-neutral-900 mb-2">
-              Certifications & Labels
-            </h2>
-            <p className="text-neutral-600 mb-8">
-              Des garanties de qualité et de professionnalisme
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-8 items-center">
-              {["QualiPaysage", "RGE", "Artisan Certifié", "Éco-Jardin"].map(
-                (label) => (
-                  <div
-                    key={label}
-                    className="rounded-lg bg-white px-8 py-4 text-sm font-semibold text-neutral-700 shadow-sm"
-                  >
-                    {label}
-                  </div>
-                )
-              )}
-            </div>
-          </FadeIn>
-        </Container>
-      </section>
-
       {/* CTA */}
       <section className="py-16 bg-primary-900 text-center">
         <Container>
           <FadeIn>
             <h2 className="text-3xl font-bold text-white">
-              Envie de travailler ensemble ?
+              Un projet en tête ?
             </h2>
             <p className="mt-4 text-neutral-200 max-w-2xl mx-auto">
-              Rencontrons-nous pour discuter de votre projet et imaginer ensemble
-              le jardin de vos rêves.
+              Appelez-nous ou envoyez un message. On se déplace pour voir votre terrain et vous faire un devis gratuit.
             </p>
             <div className="mt-8">
               <Button href="/contact" variant="primary" size="lg">

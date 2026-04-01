@@ -3,11 +3,11 @@ import FadeUp from "@/components/animations/FadeUp";
 import { clientConfig } from "@/config/client.config";
 
 const reasons = [
-  { title: `${clientConfig.ANNEES_EXPERIENCE} ans d'expertise`, desc: "Une équipe chevronnée avec une maîtrise technique reconnue." },
-  { title: "Projets sur mesure", desc: "Chaque jardin est unique, conçu selon vos envies et votre terrain." },
-  { title: "Matériaux premium", desc: "Pierres nobles, bois exotiques, végétaux sélectionnés." },
-  { title: "Garantie décennale", desc: "Tous nos travaux sont couverts par une assurance décennale." },
-  { title: "Suivi personnalisé", desc: "Un interlocuteur dédié de la conception à la livraison finale." },
+  { title: `${clientConfig.ANNEES_EXPERIENCE} ans d'expérience`, desc: "On connaît le terrain, les sols, le climat. Chaque chantier est géré avec du métier." },
+  { title: "Travail sur mesure", desc: "Chaque jardin est différent. On s'adapte à votre terrain, vos envies et votre budget." },
+  { title: "Travail soigné", desc: "On fait les choses bien, proprement, et on laisse le chantier nickel." },
+  { title: "Devis gratuit", desc: "On se déplace, on regarde, on vous fait un devis clair et sans surprise." },
+  { title: "Suivi du chantier", desc: "Un seul interlocuteur du début à la fin. Vous savez toujours où ça en est." },
 ];
 
 export default function WhyChooseUs() {
@@ -35,7 +35,7 @@ export default function WhyChooseUs() {
                 Pourquoi nous choisir
               </p>
               <h2 className="font-heading text-4xl md:text-5xl font-bold text-neutral-900 mb-8">
-                L'Excellence au Service de Votre Jardin
+                Du Travail Bien Fait, Tout Simplement
               </h2>
             </FadeUp>
 

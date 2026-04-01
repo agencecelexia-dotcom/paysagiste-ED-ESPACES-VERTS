@@ -2,18 +2,18 @@ import type { Project } from "@/types";
 
 export const projects: Project[] = [
   {
-    id: "creation-jardin-grandpuits",
-    slug: "creation-jardin-grandpuits",
-    title: "Création de Jardin à Grandpuits-Bailly-Carrois",
+    id: "creation-jardin-courpaley",
+    slug: "creation-jardin-courpaley",
+    title: "Création de Jardin à Courpaley",
     category: "jardin",
     shortDescription:
-      "Transformation d'un terrain nu en jardin paysager avec pose de gazon en plaques et aménagement complet.",
+      "Terrain nu transformé en jardin complet : gazon en plaques, clôture composite et finitions.",
     fullDescription:
-      "Ce projet consistait à transformer un terrain en terre battue en un jardin verdoyant et accueillant. Après une préparation minutieuse du sol, nous avons posé un gazon en plaques pour un résultat immédiat et uniforme. L'ensemble a été complété par la pose d'une clôture composite pour délimiter la propriété avec élégance.",
+      "Le client avait un terrain en terre battue, sans rien dessus. On a tout préparé : nivellement, apport de terre végétale, pose de gazon en plaques pour un résultat immédiat. On a terminé par une clôture composite anthracite tout autour pour fermer la propriété proprement.",
     challenge:
-      "Le terrain était entièrement nu, sans aucune végétation. Le sol compact nécessitait un travail de préparation important avant la pose du gazon.",
+      "Sol très compact, pas de végétation du tout. Il fallait tout reprendre de zéro, du terrassement à la finition.",
     solution:
-      "Nous avons retourné et nivelé le terrain, apporté du terreau fertile, puis posé le gazon en plaques pour un résultat immédiat. Une clôture composite anthracite a été installée pour finaliser l'aménagement.",
+      "On a retourné le sol, apporté du terreau, posé le gazon en plaques et installé la clôture sur fondations béton. Résultat propre en 2 semaines.",
     images: [
       "/images/_template/portfolio/apres/projet-1-apres.jpg",
       "/images/_template/portfolio/apres/projet-2-apres.jpg",
@@ -24,7 +24,7 @@ export const projects: Project[] = [
     featuredImage: "/images/_template/portfolio/apres/projet-1-apres.jpg",
     surface: "250 m²",
     duration: "2 semaines",
-    location: "Grandpuits-Bailly-Carrois",
+    location: "Courpaley",
     year: 2025,
     featured: true,
     services: ["creation-jardins"],
@@ -35,13 +35,13 @@ export const projects: Project[] = [
     title: "Terrasse en Travertin à Nangis",
     category: "terrasse",
     shortDescription:
-      "Aménagement d'une terrasse en travertin avec abords de piscine et haie taillée.",
+      "Pose de travertin autour d'une piscine avec taille de haies et nettoyage complet.",
     fullDescription:
-      "Ce projet a consisté à aménager les abords d'une piscine avec une terrasse en travertin ivoire. La pierre naturelle apporte élégance et chaleur, tandis que la taille soignée des haies existantes cadre parfaitement l'espace détente. L'ensemble crée un coin de sérénité au coeur du jardin.",
+      "Les abords de la piscine étaient vieillissants, les haies partaient dans tous les sens. On a posé du travertin ivoire sur dalle stabilisée, taillé toutes les haies bien droit, et nettoyé l'ensemble. Le coin piscine est devenu un vrai espace détente.",
     challenge:
-      "Les abords de la piscine étaient vieillissants et les haies avaient poussé de manière désordonnée, réduisant l'espace utile et la luminosité.",
+      "Ancien dallage abîmé, haies pas entretenues depuis longtemps. Il fallait tout reprendre sans toucher à la piscine.",
     solution:
-      "Nous avons posé le travertin sur une dalle stabilisée, taillé les haies pour retrouver des lignes nettes, et créé une circulation fluide entre la maison, la terrasse et la piscine.",
+      "Dépose de l'ancien revêtement, pose du travertin, taille de toutes les haies et nettoyage haute pression des abords.",
     images: [
       "/images/_template/portfolio/apres/projet-2-apres.jpg",
       "/images/_template/portfolio/apres/projet-3-apres.jpg",
@@ -57,18 +57,18 @@ export const projects: Project[] = [
     services: ["amenagement-terrasses"],
   },
   {
-    id: "allee-amenagee-provins",
-    slug: "allee-amenagee-provins",
-    title: "Allée Aménagée à Provins",
+    id: "allee-amenagee-noisy",
+    slug: "allee-amenagee-noisy-le-grand",
+    title: "Allée Aménagée à Noisy-le-Grand",
     category: "terrasse",
     shortDescription:
-      "Rénovation d'une allée d'entrée avec bordures, gravier et désherbage complet des abords.",
+      "Réfection complète d'une allée d'entrée : bordures, gravier stabilisé et désherbage.",
     fullDescription:
-      "L'allée d'entrée de cette maison de ville était en mauvais état : béton fissuré, mauvaises herbes envahissantes et bordures dégradées. Nous avons entièrement repris l'allée avec des bordures neuves, un gravier stabilisé et un désherbage soigné des massifs latéraux pour redonner un aspect soigné à l'entrée de la propriété.",
+      "L'allée était en mauvais état : béton fissuré, mauvaises herbes partout, bordures cassées. On a tout repris : nouvelles bordures béton, gravier stabilisé, et désherbage complet des abords. L'entrée de la maison a retrouvé un aspect propre et soigné.",
     challenge:
-      "L'allée étroite longeant la façade était envahie de mauvaises herbes et le béton s'effritait. Il fallait intervenir sans endommager les fondations de la maison.",
+      "Allée étroite le long de la façade, envahie par les mauvaises herbes. Il fallait intervenir sans abîmer les fondations de la maison.",
     solution:
-      "Nous avons désherber manuellement, posé des bordures en béton pour contenir le gravier, et traité les abords avec un paillage minéral pour limiter la repousse.",
+      "Désherbage manuel, pose de bordures neuves, gravier stabilisé et paillage minéral pour éviter que ça repousse.",
     images: [
       "/images/_template/portfolio/apres/projet-3-apres.jpg",
       "/images/_template/portfolio/apres/projet-4-apres.jpg",
@@ -78,24 +78,24 @@ export const projects: Project[] = [
     featuredImage: "/images/_template/portfolio/apres/projet-3-apres.jpg",
     surface: "30 m²",
     duration: "1 semaine",
-    location: "Provins",
+    location: "Noisy-le-Grand",
     year: 2025,
     featured: true,
     services: ["creation-jardins", "amenagement-terrasses"],
   },
   {
-    id: "cloture-composite-bray",
-    slug: "cloture-composite-bray",
-    title: "Clôture Composite à Bray-sur-Seine",
+    id: "cloture-composite-provins",
+    slug: "cloture-composite-provins",
+    title: "Clôture Composite à Provins",
     category: "cloture",
     shortDescription:
-      "Pose d'une clôture composite anthracite avec préparation du terrain et engazonnement.",
+      "Pose de clôture composite anthracite avec remise en état du jardin.",
     fullDescription:
-      "Ce projet comprenait la remise en état complète d'un jardin en friche : débroussaillage, nivellement du terrain, pose d'une clôture composite anthracite sur toute la longueur de la propriété, et finition avec gazon et galets blancs décoratifs. Le résultat offre un extérieur propre, moderne et facile d'entretien.",
+      "Le jardin était en friche totale : herbes hautes, pas de clôture, terrain bosselé. On a tout débroussaillé, nivelé le terrain, posé des panneaux composites anthracite sur toute la longueur, et fini par du gazon et quelques galets blancs en déco.",
     challenge:
-      "Le jardin était totalement en friche avec des mauvaises herbes hautes et aucune délimitation de propriété. Le sol était très irrégulier.",
+      "Terrain en friche complète, pas de délimitation de propriété. Sol très irrégulier.",
     solution:
-      "Après un débroussaillage complet, nous avons nivelé le terrain, installé les poteaux et panneaux composites sur fondations béton, puis posé le gazon et ajouté des touches décoratives avec des galets blancs.",
+      "Débroussaillage, nivellement, pose des poteaux et panneaux sur fondations béton, gazon et finitions.",
     images: [
       "/images/_template/portfolio/apres/projet-4-apres.jpg",
     ],
@@ -104,24 +104,24 @@ export const projects: Project[] = [
     featuredImage: "/images/_template/portfolio/apres/projet-4-apres.jpg",
     surface: "35 ml",
     duration: "2 semaines",
-    location: "Bray-sur-Seine",
+    location: "Provins",
     year: 2025,
     featured: false,
     services: ["clotures-murets"],
   },
   {
-    id: "elagage-propriete-montereau",
-    slug: "elagage-propriete-montereau",
-    title: "Élagage de Grands Arbres à Montereau-Fault-Yonne",
+    id: "elagage-grands-arbres-melun",
+    slug: "elagage-grands-arbres-melun",
+    title: "Élagage de Grands Arbres à Melun",
     category: "elagage",
     shortDescription:
-      "Élagage en hauteur et abattage sécurisé de grands arbres sur une propriété privée.",
+      "Élagage en hauteur et abattage d'arbres dangereux chez un particulier.",
     fullDescription:
-      "Intervention d'élagage sur plusieurs grands arbres menaçant la sécurité d'une propriété. Nos élagueurs grimpeurs sont intervenus en hauteur pour réaliser une taille de réduction et l'abattage contrôlé d'arbres dangereux. Les branches ont été broyées sur place et les troncs débités.",
+      "Plusieurs grands arbres menaçaient la maison et les lignes électriques. On est intervenu en grimpe pour tailler, réduire et abattre les arbres les plus dangereux. Tout a été broyé et évacué sur place.",
     challenge:
-      "Les arbres étaient de grande hauteur et situés à proximité de la maison et des lignes électriques. L'accès au chantier était limité pour les engins.",
+      "Arbres très hauts, proches de la maison et des câbles. Pas de place pour un engin, tout à faire en grimpe.",
     solution:
-      "Nos élagueurs grimpeurs ont travaillé en hauteur avec harnais et cordes, démontant les arbres branche par branche. Un broyeur professionnel a permis d'évacuer les déchets verts directement sur site.",
+      "Élagage en grimpe avec harnais et cordes, démontage branche par branche. Broyage sur place pour limiter les allers-retours.",
     images: [
       "/images/_template/portfolio/apres/projet-5-apres.jpg",
     ],
@@ -130,24 +130,24 @@ export const projects: Project[] = [
     featuredImage: "/images/_template/portfolio/apres/projet-5-apres.jpg",
     surface: "500 m²",
     duration: "3 jours",
-    location: "Montereau-Fault-Yonne",
+    location: "Melun",
     year: 2025,
     featured: false,
     services: ["elagage"],
   },
   {
-    id: "amenagement-complet-melun",
-    slug: "amenagement-complet-melun",
-    title: "Aménagement Complet à Melun",
+    id: "amenagement-complet-fontenay",
+    slug: "amenagement-complet-fontenay-tresigny",
+    title: "Aménagement Complet à Fontenay-Trésigny",
     category: "amenagement-complet",
     shortDescription:
-      "Transformation totale d'une propriété : débroussaillage, création de pelouse, clôtures et entretien.",
+      "Reprise totale d'une propriété : débroussaillage, pelouse, haies et clôtures.",
     fullDescription:
-      "Ce projet d'envergure a consisté à reprendre entièrement les espaces extérieurs d'une grande propriété laissée à l'abandon. Débroussaillage intégral, nivellement, création de pelouse, taille des haies et des arbres — chaque étape a été menée avec rigueur pour redonner vie à ce terrain de plus de 1000 m².",
+      "La propriété était à l'abandon depuis des années : ronces, herbes hautes partout, aucun entretien. On a tout repris en plusieurs phases : débroussaillage, évacuation, préparation du sol, semis de gazon, taille des haies et tonte de finition. Plus de 1000 m² remis en état.",
     challenge:
-      "Le terrain était complètement envahi par les herbes hautes et les ronces. Aucun entretien n'avait été réalisé depuis plusieurs années, rendant l'espace impraticable.",
+      "Terrain complètement envahi. Ronces et herbes hautes rendaient l'espace impraticable. Pas entretenu depuis plusieurs années.",
     solution:
-      "Une intervention en plusieurs phases : débroussaillage mécanique, évacuation des déchets verts, préparation du sol, semis de gazon et tonte de finition. Le résultat est une pelouse impeccable avec des bandes de tonte nettes.",
+      "Débroussaillage mécanique, évacuation des déchets, préparation du sol, semis et tonte. Résultat : une pelouse nette avec des bandes de tonte bien droites.",
     images: [
       "/images/_template/portfolio/apres/projet-6-apres.jpg",
       "/images/_template/portfolio/apres/projet-1-apres.jpg",
@@ -158,9 +158,9 @@ export const projects: Project[] = [
     featuredImage: "/images/_template/portfolio/apres/projet-6-apres.jpg",
     surface: "1000 m²",
     duration: "4 semaines",
-    location: "Melun",
+    location: "Fontenay-Trésigny",
     year: 2025,
     featured: true,
-    services: ["creation-jardins", "amenagement-terrasses", "clotures-murets", "arrosage-automatique"],
+    services: ["creation-jardins", "amenagement-terrasses", "clotures-murets"],
   },
 ];
